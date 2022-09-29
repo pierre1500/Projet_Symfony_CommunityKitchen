@@ -32,7 +32,7 @@ class IngredientController extends AbstractController
             10
         );
 
-        return $this->render('pages/ingredient/index.html.twig', [
+        return $this->render('pages/ingredient/login.html.twig', [
             'ingredients' => $ingredients,
         ]);
     }
