@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/inscription", name="security_registration")
+     * @Route("/connexion", name="security_login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/inscription", name="security.register", methods={"GET", "POST"})
+     * @Route("/deconnexion", name="security.logout", methods={"GET", "POST"})
      */
     #[Route('/deconnexion', name: 'security.logout')]
     public function logout()

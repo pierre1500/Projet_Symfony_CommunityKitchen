@@ -24,12 +24,29 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
+        $users = [];
+        //Users
+        for ($l = 0; $l < 10; $l++) {
+            $user = new User();
+            $user->setFullName($this->faker->name)
+                ->setPseudo(mt_rand(0,1) === 1 ? $this->faker->firstName : null)
+                ->setEmail($this->faker->email)
+                ->setRoles(['ROLE_USER'])
+                ->setPlainPassword('password');
+
+            $users[] = $user;
+            $manager->persist($user);
+        }
+
         //ingredients
         $ingredients = [];
         for ($i = 0; $i < 50; $i++) {
             $ingredient = new Ingredient();
-            $ingredient->setName($this->faker->word);
-            $ingredient->setPrice(mt_rand(0, 100));
+            $ingredient->setName($this->faker->word())
+            ->setPrice(mt_rand(0, 100))
+            ->setUser($users[mt_rand(0, count($users) - 1)]);
+
+
             $ingredients[] = $ingredient;
             $manager->persist($ingredient);
         }
@@ -43,23 +60,12 @@ class AppFixtures extends Fixture
           ->setDifficulty(mt_rand(0, 1) == 1 ? mt_rand(1, 5) : null)
                 ->setDescription($this->faker->text(300))
             ->setPrice(mt_rand(0, 1) == 1 ? mt_rand(1, 1000) : null)
-          ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
+          ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false)
+                ->setUser($users[mt_rand(0, count($users) - 1)]);
             for ($k = 0; $k < mt_rand(5, 15); $k++) {
                 $recipe->addIngredient($ingredients[mt_rand(0, count($ingredients) - 1)]);
             }
             $manager->persist($recipe);
-        }
-
-        //Users
-        for ($l = 0; $l < 10; $l++) {
-            $user = new User();
-            $user->setFullName($this->faker->name)
-                ->setPseudo(mt_rand(0,1) === 1 ? $this->faker->firstName : null)
-                ->setEmail($this->faker->email)
-                ->setRoles(['ROLE_USER'])
-            ->setPlainPassword('password');
-
-            $manager->persist($user);
         }
 
         $manager->flush();
