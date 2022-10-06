@@ -24,7 +24,7 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * this method allow us to find public recipes based on number of recipes
      *
-     * @param int $nbRecipes
+     * @param int|null $nbRecipes
      * @return array
      */
     public function findPublicRecipes(?int $nbRecipes) : array
@@ -33,7 +33,7 @@ class RecipeRepository extends ServiceEntityRepository
             ->andWhere('r.isPublic = 1')
             ->orderBy('r.createdAt', 'DESC');
 
-        if (!$nbRecipes === 0 || !$nbRecipes === null) {
+        if ($nbRecipes !== 0 || $nbRecipes !== null) {
             $queryBuilder->setMaxResults($nbRecipes);
         }
             return $queryBuilder->getQuery()

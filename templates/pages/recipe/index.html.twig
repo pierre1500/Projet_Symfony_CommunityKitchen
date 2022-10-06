@@ -66,6 +66,7 @@
             </div>
         {% else %}
             <h1>Vous n'avez pas de recettes</h1>
+            <a href="{{ path('recipe.new') }}" class="btn btn-primary mt-4">Créer une recette</a>
         {% endif %}
     </div>
 {% endblock %}
