@@ -1,16 +1,23 @@
 {% extends "base.html.twig" %}
 
+{% block title %}SymRecipe - Modification de la recette{% endblock %}
+
 {% block body %}
     <div class="container">
         <h1 class="mt-4">
             Modification de la recette
         </h1>
 
-        {{ form_start(form) }}
+        <form name="recipe" method="post">
+
         <div class="form-group">
             {{ form_label(form.name) }}
             {{ form_widget(form.name) }}
         </div>
+        <div class="form-image">
+            {{ form_row(form.imageFile) }}
+        </div>
+
         <div class="form-error">
             {{ form_errors(form.name) }}
         </div>
@@ -65,6 +72,9 @@
 
         {{ form_row(form.ingredients) }}
 
-        {{ form_end(form) }}
+            {{ form_row(form._token) }}
+
+            <button type="submit" id="recipe_submit" name="recipe[submit]" class="btn btn-primary mt-4">Modifier une recette</button>
+        </form>
     </div>
 {% endblock %}

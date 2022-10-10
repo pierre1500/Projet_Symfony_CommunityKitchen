@@ -9,8 +9,13 @@
             <p class="lead">SymRecipe est une application qui va te permettre de créer des recettes à base d'ingrédients que tu auras toi-même créer. Tu pourras
             partager tes recettes à la communauté du site, ou bien les garder en privées.</p>
             <hr class="my-4">
-            <p>Pour commencer rendez-vous sur la page d'inscription pour utiliser l'application.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Inscription</a>
+            {% if app.user %}
+                Vous êtes connecté, vous pouvez accéder à vos recettes, ou bien en créer de nouvelles.
+            {% else %}
+                <p>Pour commencer rendez-vous sur la page d'inscription pour utiliser l'application.</p>
+                <a class="btn btn-primary btn-lg" href="{{ path('security.login') }}" role="button">Connexion</a>
+                <a class="btn btn-primary btn-lg" href="{{ path('security.register') }}" role="button">Inscription</a>
+            {% endif %}
         </div>
 
         <div class="recipes">
@@ -20,7 +25,9 @@
                     <div class="card border-primary mb-3" style="max-width: 20rem;">
                         <div class="card-header">Recette n°{{ recipe.id }}</div>
                         <div class="card-body">
+                            <a href="{{ path ('recipe.show', {id: recipe.id})}}">
                             <h4 class="card-title">{{ recipe.name }}</h4>
+                            </a>
                             <p class="card-text">{{ recipe.description|slice(0, 100) ~ '...'  }}</p>
                         </div>
                     </div>
