@@ -4,13 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Mailer\MailerInterface;
 
 class ContactController extends AbstractController
 {
@@ -18,7 +17,7 @@ class ContactController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer
+        MailService $mailService
     ): Response
     {
         $contact = new Contact();
@@ -36,17 +35,15 @@ class ContactController extends AbstractController
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            //send email
-            $email = (new TemplatedEmail())
-                ->from($contact->getEmail())
-                ->to('pierre.1500@gmail.com')
-                ->subject($contact->getSubject())
-                ->htmlTemplate('emails/contact.html.twig')
-                ->context([
-                    'contact' => $contact
-                ]);
-            $mailer->send($email);
+            $mailService->sendEmail(
+                $contact->getEmail(),
+                $contact->getSubject(),
 
+                "emails/contact.html.twig",
+                [
+                    "contact" => $contact
+                ]
+            );
 
             $this->addFlash('success', 'Votre message a bien été envoyé.');
 
