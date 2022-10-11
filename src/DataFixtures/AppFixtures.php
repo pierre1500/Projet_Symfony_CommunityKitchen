@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Contact;
 use App\Entity\Ingredient;
 use App\Entity\Mark;
 use App\Entity\Recipe;
@@ -81,6 +82,16 @@ class AppFixtures extends Fixture
                     ->setMark(mt_rand(1, 5));
                 $manager->persist($mark);
             }
+        }
+
+        // Contact
+        for ($n = 0; $n < 5; $n++) {
+            $contact = new Contact();
+            $contact->setFullName($this->faker->name)
+                ->setEmail($this->faker->email)
+                ->setSubject('demande n°' . $n + 1)
+                ->setMessage($this->faker->text());
+            $manager->persist($contact);
         }
 
 
