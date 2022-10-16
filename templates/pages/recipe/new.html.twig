@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}SymRecipe - Nouvelle recette {% endblock %}
+{% block title %}CommunityKitchen - Nouvelle recette {% endblock %}
 
 {% block body %}
     <div class="container">
@@ -60,6 +60,11 @@
         <div class="form-check mt-4">
             {{ form_widget(form.isFavorite) }}
             {{ form_label(form.isFavorite) }}
+        </div>
+
+        <div class="form-check mt-4">
+            {{ form_widget(form.isPublic) }}
+            {{ form_label(form.isPublic) }}
         </div>
 
         {{ form_row(form.imageFile) }}
